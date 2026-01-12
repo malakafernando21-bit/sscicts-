@@ -1,0 +1,828 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Society | Innovating the Future</title>
+    <meta name="description" content="Award-winning ICT Society Website. Join the future of technology and innovation.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animation Library (AOS) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a', // Slate 900
+                        secondary: '#1e293b', // Slate 800
+                        accent: '#38bdf8', // Sky 400
+                        purple: '#a855f7', // Purple 500
+                        cyan: '#06b6d4', // Cyan 500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        /* --- Global & Reset --- */
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+            cursor: none; /* Hiding default cursor for custom one */
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #38bdf8, #a855f7);
+            border-radius: 4px;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #38bdf8;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(56, 189, 248, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        /* Hover state for cursor */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(56, 189, 248, 0.1);
+            border-color: transparent;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- Glassmorphism --- */
+        .glass {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* --- Neon Glow --- */
+        .text-glow {
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5), 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+        .box-glow:hover {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+        }
+
+        /* --- Preloader --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #FFF;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        .loader::after {
+            content: '';  
+            box-sizing: border-box;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid;
+            border-color: #38bdf8 transparent;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Utilities --- */
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* 3D Tilt Wrapper */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+        .tilt-inner {
+            transform: translateZ(20px);
+        }
+
+        /* Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="flex flex-col items-center gap-4">
+            <span class="loader"></span>
+            <p class="font-tech text-cyan-400 tracking-widest text-sm animate-pulse">INITIALIZING SYSTEM...</p>
+        </div>
+    </div>
+
+    <!-- Background Animation -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 top-0">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="glass rounded-full px-6 py-3 flex justify-between items-center">
+                <a href="#" class="font-tech text-xl font-bold tracking-wider hover-trigger">
+                    ICT<span class="text-cyan-400">.SOC</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8 font-sans text-sm font-medium">
+                    <a href="#home" class="hover:text-cyan-400 transition-colors hover-trigger">Home</a>
+                    <a href="#about" class="hover:text-cyan-400 transition-colors hover-trigger">About</a>
+                    <a href="#events" class="hover:text-cyan-400 transition-colors hover-trigger">Events</a>
+                    <a href="#projects" class="hover:text-cyan-400 transition-colors hover-trigger">Projects</a>
+                    <a href="#team" class="hover:text-cyan-400 transition-colors hover-trigger">Team</a>
+                    <a href="#contact" class="px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all transform hover:scale-105 hover-trigger">Join Us</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-2xl hover-trigger">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full glass border-t border-white/10 p-6 flex-col gap-4 md:hidden">
+            <a href="#home" class="block text-center py-2 hover:text-cyan-400">Home</a>
+            <a href="#about" class="block text-center py-2 hover:text-cyan-400">About</a>
+            <a href="#events" class="block text-center py-2 hover:text-cyan-400">Events</a>
+            <a href="#contact" class="block text-center py-2 text-cyan-400">Join Us</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <div class="max-w-7xl mx-auto px-6 text-center z-10">
+            <div data-aos="fade-down" data-aos-duration="1000">
+                <span class="font-tech text-cyan-400 tracking-[0.3em] text-sm md:text-base uppercase mb-4 block">Future | Innovation | Technology</span>
+                <h1 class="font-tech text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+                    We Build The <br />
+                    <span class="gradient-text text-glow">Digital Future</span>
+                </h1>
+                <p class="font-sans text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                    Join the premier student-led technology community. Innovate, collaborate, and lead the next generation of ICT professionals.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <a href="#events" class="group relative px-8 py-4 rounded-full bg-cyan-500 overflow-hidden font-bold tracking-wide hover-trigger">
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="relative z-10 text-white">Explore Events</span>
+                    </a>
+                    <a href="#projects" class="px-8 py-4 rounded-full border border-slate-600 hover:border-cyan-400 hover:text-cyan-400 transition-all hover-trigger">
+                        View Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-500">
+            <i class="fa-solid fa-arrow-down"></i>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <!-- Text Content -->
+                <div data-aos="fade-right">
+                    <h2 class="font-tech text-4xl font-bold mb-6">About <span class="text-cyan-400">ICT Society</span></h2>
+                    <p class="text-slate-300 mb-6 leading-relaxed">
+                        We are a collective of passionate coders, designers, and innovators. Our mission is to bridge the gap between academic theory and industry application through hands-on workshops, hackathons, and collaborative projects.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="glass-card p-6 rounded-2xl hover:border-cyan-400/30 transition-colors">
+                            <i class="fa-solid fa-rocket text-3xl text-purple-500 mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Innovation</h3>
+                            <p class="text-sm text-slate-400">Pushing boundaries with creative tech solutions.</p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl hover:border-cyan-400/30 transition-colors">
+                            <i class="fa-solid fa-users text-3xl text-cyan-500 mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Community</h3>
+                            <p class="text-sm text-slate-400">A network of future tech leaders.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visual/Interactive -->
+                <div class="relative" data-aos="fade-left">
+                    <div class="glass rounded-2xl p-8 relative z-10 tilt-card">
+                        <div class="tilt-inner">
+                            <h3 class="font-tech text-2xl mb-4">Our Mission</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-check text-green-400 mt-1"></i>
+                                    <span class="text-slate-300">Empower students with cutting-edge skills.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-check text-green-400 mt-1"></i>
+                                    <span class="text-slate-300">Foster a culture of open source collaboration.</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <i class="fa-solid fa-check text-green-400 mt-1"></i>
+                                    <span class="text-slate-300">Provide mentorship from industry experts.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Decorative blurred blobs -->
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-600 rounded-full blur-[80px] opacity-40 z-0"></div>
+                    <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-cyan-600 rounded-full blur-[80px] opacity-40 z-0"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-gradient-to-r from-slate-900 to-slate-800 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div data-aos="zoom-in" data-aos-delay="0">
+                    <div class="text-4xl md:text-5xl font-tech font-bold text-white mb-2 counter" data-target="500">0</div>
+                    <div class="text-cyan-400 text-sm tracking-widest uppercase">Members</div>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="100">
+                    <div class="text-4xl md:text-5xl font-tech font-bold text-white mb-2 counter" data-target="50">0</div>
+                    <div class="text-purple-400 text-sm tracking-widest uppercase">Projects</div>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="200">
+                    <div class="text-4xl md:text-5xl font-tech font-bold text-white mb-2 counter" data-target="24">0</div>
+                    <div class="text-cyan-400 text-sm tracking-widest uppercase">Awards</div>
+                </div>
+                <div data-aos="zoom-in" data-aos-delay="300">
+                    <div class="text-4xl md:text-5xl font-tech font-bold text-white mb-2 counter" data-target="12">0</div>
+                    <div class="text-purple-400 text-sm tracking-widest uppercase">Events</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-tech text-4xl md:text-5xl font-bold mb-4">Upcoming <span class="gradient-text">Events</span></h2>
+                <p class="text-slate-400">Don't miss out on our latest competitions and workshops.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Event Card 1 -->
+                <div class="glass-card rounded-2xl overflow-hidden tilt-card group hover-trigger" data-aos="fade-up" data-aos-delay="0">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://picsum.photos/seed/tech1/600/400" alt="Hackathon" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full">Upcoming</div>
+                    </div>
+                    <div class="p-6 tilt-inner">
+                        <div class="flex items-center gap-2 text-slate-400 text-sm mb-3">
+                            <i class="fa-regular fa-calendar"></i> Oct 24, 2023
+                        </div>
+                        <h3 class="font-tech text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">Cyber Security Hackathon</h3>
+                        <p class="text-slate-400 text-sm mb-4">24-hour coding challenge focused on network security and encryption.</p>
+                        <button class="w-full py-2 border border-slate-600 rounded-lg hover:bg-cyan-500 hover:border-cyan-500 transition-all text-sm font-bold">Register Now</button>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="glass-card rounded-2xl overflow-hidden tilt-card group hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://picsum.photos/seed/tech2/600/400" alt="AI Workshop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">Workshop</div>
+                    </div>
+                    <div class="p-6 tilt-inner">
+                        <div class="flex items-center gap-2 text-slate-400 text-sm mb-3">
+                            <i class="fa-regular fa-calendar"></i> Nov 05, 2023
+                        </div>
+                        <h3 class="font-tech text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">AI & Machine Learning 101</h3>
+                        <p class="text-slate-400 text-sm mb-4">Introductory workshop to Python libraries and neural networks.</p>
+                        <button class="w-full py-2 border border-slate-600 rounded-lg hover:bg-cyan-500 hover:border-cyan-500 transition-all text-sm font-bold">Register Now</button>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="glass-card rounded-2xl overflow-hidden tilt-card group hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://picsum.photos/seed/tech3/600/400" alt="Web Dev" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full">Competition</div>
+                    </div>
+                    <div class="p-6 tilt-inner">
+                        <div class="flex items-center gap-2 text-slate-400 text-sm mb-3">
+                            <i class="fa-regular fa-calendar"></i> Nov 12, 2023
+                        </div>
+                        <h3 class="font-tech text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">Future Web Design</h3>
+                        <p class="text-slate-400 text-sm mb-4">Showcase your UI/UX skills in this frontend design battle.</p>
+                        <button class="w-full py-2 border border-slate-600 rounded-lg hover:bg-cyan-500 hover:border-cyan-500 transition-all text-sm font-bold">Register Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects & Innovation -->
+    <section id="projects" class="py-24 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div data-aos="fade-right">
+                    <h2 class="font-tech text-4xl md:text-5xl font-bold mb-4">Featured <span class="text-purple-500">Projects</span></h2>
+                    <p class="text-slate-400">Innovations built by our members.</p>
+                </div>
+                <a href="#" class="hidden md:inline-block text-cyan-400 hover:text-white transition-colors hover-trigger">View All <i class="fa-solid fa-arrow-right ml-2"></i></a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Project Large -->
+                <div class="md:col-span-2 glass-card rounded-2xl p-6 md:p-10 relative overflow-hidden group hover-trigger" data-aos="fade-up">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-transparent"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-1/2 rounded-xl overflow-hidden aspect-video shadow-2xl shadow-purple-500/20">
+                            <img src="https://picsum.photos/seed/robot/800/450" alt="Robot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <span class="text-cyan-400 font-bold tracking-wider text-sm uppercase">Robotics</span>
+                            <h3 class="font-tech text-3xl font-bold mt-2 mb-4">Automated Sorting Arm</h3>
+                            <p class="text-slate-300 mb-6">An Arduino-based robotic arm capable of sorting recyclable materials using computer vision.</p>
+                            <div class="flex gap-3">
+                                <span class="px-3 py-1 rounded-full bg-white/5 text-xs border border-white/10">Python</span>
+                                <span class="px-3 py-1 rounded-full bg-white/5 text-xs border border-white/10">Arduino</span>
+                                <span class="px-3 py-1 rounded-full bg-white/5 text-xs border border-white/10">OpenCV</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Small 1 -->
+                <div class="glass-card rounded-2xl p-6 hover:border-cyan-400/50 transition-colors hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-full h-40 rounded-lg overflow-hidden mb-4">
+                        <img src="https://picsum.photos/seed/app/500/300" alt="App" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-tech text-xl font-bold mb-2">Campus Buddy App</h3>
+                    <p class="text-slate-400 text-sm">A mobile app for navigating university facilities and tracking class schedules.</p>
+                </div>
+
+                <!-- Project Small 2 -->
+                <div class="glass-card rounded-2xl p-6 hover:border-purple-400/50 transition-colors hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-full h-40 rounded-lg overflow-hidden mb-4">
+                        <img src="https://picsum.photos/seed/code/500/300" alt="Code" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-tech text-xl font-bold mb-2">Open Source Dashboard</h3>
+                    <p class="text-slate-400 text-sm">Analytics dashboard for monitoring society server health and traffic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-tech text-4xl font-bold mb-4">Meet The <span class="gradient-text">Committee</span></h2>
+                <p class="text-slate-400">The minds behind the innovation.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                <!-- Team Member -->
+                <div class="group relative text-center hover-trigger" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-full aspect-square rounded-2xl overflow-hidden mb-4 border-2 border-transparent group-hover:border-cyan-400 transition-all">
+                        <img src="https://picsum.photos/seed/person1/300/300" alt="Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-bold text-lg">Alex Chen</h4>
+                    <p class="text-cyan-400 text-sm">President</p>
+                </div>
+                
+                <div class="group relative text-center hover-trigger" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-full aspect-square rounded-2xl overflow-hidden mb-4 border-2 border-transparent group-hover:border-purple-400 transition-all">
+                        <img src="https://picsum.photos/seed/person2/300/300" alt="Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-bold text-lg">Sarah Johnson</h4>
+                    <p class="text-purple-400 text-sm">Vice President</p>
+                </div>
+
+                <div class="group relative text-center hover-trigger" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-full aspect-square rounded-2xl overflow-hidden mb-4 border-2 border-transparent group-hover:border-cyan-400 transition-all">
+                        <img src="https://picsum.photos/seed/person3/300/300" alt="Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-bold text-lg">Michael Ross</h4>
+                    <p class="text-cyan-400 text-sm">Tech Lead</p>
+                </div>
+
+                <div class="group relative text-center hover-trigger" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-full aspect-square rounded-2xl overflow-hidden mb-4 border-2 border-transparent group-hover:border-purple-400 transition-all">
+                        <img src="https://picsum.photos/seed/person4/300/300" alt="Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-bold text-lg">Emily Davis</h4>
+                    <p class="text-purple-400 text-sm">Event Manager</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-tech text-3xl font-bold mb-8 text-center">Gallery</h2>
+            <!-- CSS Grid Auto Slider -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-[600px] md:h-[400px] overflow-hidden rounded-2xl" data-aos="zoom-in">
+                <div class="col-span-2 row-span-2 relative group overflow-hidden">
+                    <img src="https://picsum.photos/seed/gal1/800/800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="col-span-1 row-span-1 relative group overflow-hidden">
+                    <img src="https://picsum.photos/seed/gal2/400/400" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="col-span-1 row-span-2 relative group overflow-hidden">
+                    <img src="https://picsum.photos/seed/gal3/400/800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="col-span-1 row-span-1 relative group overflow-hidden">
+                    <img src="https://picsum.photos/seed/gal4/400/400" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <div class="glass-card rounded-3xl p-8 md:p-12 text-center border border-white/10" data-aos="flip-up">
+                <h2 class="font-tech text-4xl font-bold mb-4">Ready to <span class="text-cyan-400">Join Us?</span></h2>
+                <p class="text-slate-400 mb-8">Follow us on social media or drop us an email for inquiries.</p>
+                
+                <div class="flex justify-center gap-6 mb-10">
+                    <a href="#" class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-cyan-500 hover:text-white transition-all hover:scale-110 hover-trigger">
+                        <i class="fa-brands fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all hover:scale-110 hover-trigger">
+                        <i class="fa-brands fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-slate-600 hover:text-white transition-all hover:scale-110 hover-trigger">
+                        <i class="fa-brands fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all hover:scale-110 hover-trigger">
+                        <i class="fa-brands fa-youtube text-xl"></i>
+                    </a>
+                </div>
+
+                <div class="bg-slate-900/50 rounded-xl p-6 md:p-8 border border-white/5">
+                    <h3 class="font-bold text-lg mb-4">Send a Message</h3>
+                    <form class="space-y-4 text-left" onsubmit="event.preventDefault(); alert('Message simulation: Sent!');">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Name" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors text-white">
+                            <input type="email" placeholder="Email" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors text-white">
+                        </div>
+                        <textarea placeholder="Message" rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors text-white"></textarea>
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 rounded-lg transition-all transform active:scale-95 hover-trigger">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-slate-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <a href="#" class="font-tech text-2xl font-bold tracking-wider hover:text-white transition-colors">
+                        ICT<span class="text-cyan-400">.SOC</span>
+                    </a>
+                    <p class="text-slate-400 mt-4 max-w-sm">
+                        Empowering the next generation of tech leaders through innovation, collaboration, and excellence.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#home" class="hover:text-cyan-400 transition-colors">Home</a></li>
+                        <li><a href="#events" class="hover:text-cyan-400 transition-colors">Events</a></li>
+                        <li><a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a></li>
+                        <li><a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><i class="fa-solid fa-envelope mr-2"></i> contact@ictsoc.edu</li>
+                        <li><i class="fa-solid fa-location-dot mr-2"></i> Tech Hub, Building B</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-slate-600 text-sm border-t border-white/5 pt-8">
+                &copy; 2023 ICT Society. All Rights Reserved. Designed by AI Assistant.
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Main Logic -->
+    <script>
+        // --- Initialization ---
+        document.addEventListener("DOMContentLoaded", () => {
+            // Init AOS
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out-cubic',
+                once: true,
+                offset: 100
+            });
+
+            // Preloader
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.visibility = 'hidden';
+                }, 1500); // Fake load time for effect
+            });
+
+            // Mobile Menu
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                menu.classList.toggle('flex');
+            });
+        });
+
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay (animation)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover Effect for Cursor
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            trigger.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // --- Navbar Auto-Hide on Scroll ---
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Add/remove glass background transparency based on scroll
+            if (scrollTop > 50) {
+                navbar.classList.add('-translate-y-2'); // subtle move
+            } else {
+                navbar.classList.remove('-translate-y-2');
+            }
+
+            lastScrollTop = scrollTop;
+        });
+
+        // --- 3D Tilt Effect for Cards ---
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max rotation deg
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        });
+
+        // --- Animated Counters ---
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // The lower the slower
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target + "+";
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // Trigger counter when section is in view
+        let counterSectionPlayed = false;
+        const statsSection = document.querySelector('.counter').parentElement.parentElement.parentElement;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting && !counterSectionPlayed) {
+                    animateCounters();
+                    counterSectionPlayed = true;
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(statsSection);
+
+        // --- Canvas Particle Background ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        
+        // Resize
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? '#38bdf8' : '#a855f7'; // Cyan or Purple
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // Init Particles
+        for (let i = 0; i < 60; i++) {
+            particles.push(new Particle());
+        }
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Draw lines between close particles
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${1 - distance / 150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+    </script>
+</body>
+</html>
